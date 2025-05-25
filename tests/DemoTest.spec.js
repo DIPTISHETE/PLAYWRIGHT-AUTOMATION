@@ -1,13 +1,23 @@
 const { test, expect } = require('@playwright/test');
+const { it } = require('node:test');
+
+//ENd to End automation Test
+// 1.Login
+// 2.add the products to the cart
+// 3.chcckout
+// 4.submit the items buy it
+// 5.go to details page--grab ithe orderId
+// 6.go to history page
 
 test('Demo test', async ({ page }) => {
+  const email= "saloni10@gmail.com"
   const productName = 'ZARA COAT 3';
 
   // Navigate to the application
   await page.goto("https://rahulshettyacademy.com/client");
 
   // Login with valid credentials
-  await page.locator("#userEmail").fill("saloni10@gmail.com");
+  await page.locator("#userEmail").fill(email);
   await page.locator("#userPassword").fill("Saloni@9696");
   await page.locator('[value="Login"]').click();
 
@@ -61,6 +71,32 @@ test('Demo test', async ({ page }) => {
     }
   }
 
-  // Pause for debugging (optional)
-  await page.pause();
+// ✅ FIXED: Validate email is displayed (not using toHaveValue, because it's not an input)
+ expect(page.locator(".user__name [type='text']").first()).toHaveText(email)
+ await page.locator(".action__submit ").click()
+ await expect(page.locator(".hero-primary")).toHaveText(' Thankyou for the order. ');
+
+// Capture the orderId
+  const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+  console.log("Order ID:", orderId);
+
+ //finding ur order in the orders page
+  // Go to 'My Orders' page
+ await page.locator("button[routerlink*='myorders']").click();
+ await page.locator("tbody").waitFor();
+ const rows = await page.locator("tbody tr");
+ const rowCount = await rows.count();
+// Find matching order and open details
+  for (let i = 0; i < rowCount; i++) {
+    const rowOrderId = await rows.nth(i).locator("th").textContent();
+    if (orderId.includes(rowOrderId)) {
+      await rows.nth(i).locator("button").first().click();
+      break;
+    }
+  }
+
+  // Verify order details page has matching order ID
+  const orderIdDetails = await page.locator(".col-text").textContent();
+  expect(orderId.includes(orderIdDetails)).toBeTruthy();
+
 });
