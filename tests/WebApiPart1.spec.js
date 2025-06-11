@@ -1,13 +1,7 @@
 const {test, expect, request} = require('@playwright/test')
-const { ApiUtils } = require('./utils/apiUtils');
-
- 
-const loginPayLoad = {
-  userEmail: "saloni10@gmail.com",
-  userPassword: "Saloni@9696",
-};
-const OrderPayLoad = {
-  orders: [{ country: "Cuba", productOrderedId: "67a8df1ac0d3e6622a297ccb" }],
+const { ApiUtils } = require('./utils/ApiUtils');
+const loginPayLoad = {userEmail: "saloni10@gmail.com",userPassword: "Saloni@9696"};
+const OrderPayLoad = {orders: [{ country: "Cuba", productOrderedId: "67a8df1ac0d3e6622a297ccb" }],
 };
 
 let response;
