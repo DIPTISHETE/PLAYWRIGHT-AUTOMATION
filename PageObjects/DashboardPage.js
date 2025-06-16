@@ -1,3 +1,5 @@
+const { expect } = require('@playwright/test');
+
 class DashboardPage {
   constructor(page) {
     this.page = page;
@@ -25,8 +27,12 @@ class DashboardPage {
   }
 
   async navigateToCart() {
-    await this.cart.click();
-  }
+  // This wait ensures the cart element appears before asserting visibility
+  await this.page.waitForSelector("[routerlink*='cart']", { timeout: 10000 });
+  await expect(this.cart).toBeVisible();
+  await this.cart.click();
+}
+
 }
 
 module.exports = { DashboardPage };
