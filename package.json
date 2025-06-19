@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test:debug": "npx playwright test tests/WebApiPart1.spec.js --debug",
-     "regression" : "npx playwright test",
-     "webTests" :"npx playwright test --grep @web",
-     "APITests" : "npx playwright test --grep @API"
+    "regression": "npx playwright test",
+    "webTests": "npx playwright test --grep @web",
+    "APITests": "npx playwright test --grep @API"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@playwright/test": "^1.53.0",
     "@types/node": "^22.15.18",
-    "allure-playwright": "^3.2.2"
+    "allure-playwright": "^3.2.2",
+    "typescript": "^5.8.3"
   }
 }
